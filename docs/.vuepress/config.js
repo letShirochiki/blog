@@ -4,10 +4,10 @@ import { defineUserConfig } from 'vuepress'
 import { viteBundler } from '@vuepress/bundler-vite'
 
 export default defineUserConfig({
-    lang: 'en-US',
-    base: '/blog',
-    title: 'VuePress',
-    description: 'My first VuePress Site',
+    lang: 'zh-CN',
+    // base: '/blog',
+    title: 'letshirochiki-blog',
+    description: '技术collection',
     theme: defaultTheme({
         logo: 'https://vuejs.press/images/hero.png',
 
