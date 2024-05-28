@@ -5,7 +5,7 @@ import { viteBundler } from '@vuepress/bundler-vite'
 
 export default defineUserConfig({
     lang: 'zh-CN',
-    // base: '/blog',
+    base: '/blog',
     title: 'letshirochiki-blog',
     description: '技术collection',
     theme: defaultTheme({
