@@ -5,12 +5,12 @@ category:
 tag:
   - tag E
 sticky: true
-excerpt: <p>A sticky article demo.</p>
+excerpt: <s>A sticky article demo.</s>
 ---
 
 # Sticky Article
 
-## Heading 2
+## Heading 21
 
 Here is the content.
 
