@@ -152,3 +152,87 @@ methods: {
 - 避免频繁的 DOM 操作：减少对 DOM 的频繁修改，因为这会导致页面重新布局和渲染。考虑使用虚拟列表或虚拟滚动来优化大型列表的渲染2。
 - 异步加载和懒加载：将不必要的 JavaScript 延迟加载，以避免阻塞页面渲染。对于图片和其他资源，只在用户滚动到它们附近时加载，而不是一开始就加载所有内容3。
 - 使用 Web Workers：将一些计算密集型任务放在 Web Workers 中，以避免阻塞主线程，从而提高页面渲染性能。
+
+### 断开重连
+``` js
+let ws;
+ 
+function setupWebSocket() {
+    ws = new WebSocket('ws://your-websocket-url');
+ 
+    ws.onopen = function(event) {
+        console.log('WebSocket connected');
+    };
+ 
+    ws.onclose = function(event) {
+        console.log('WebSocket disconnected');
+        // 在这里重新连接
+        setTimeout(setupWebSocket, 1000); // 1秒后尝试重新连接
+    };
+ 
+    ws.onerror = function(error) {
+        console.error('WebSocket error observed:', error);
+    };
+ 
+    ws.onmessage = function(event) {
+        console.log('Message from server:', event.data);
+    };
+}
+ 
+// 初始化WebSocket连接
+setupWebSocket();
+```
+
+自动断开重连 心跳机制
+``` js
+function setupWebSocket(url) {
+    let ws = null;
+    let timeout = 2000; // 重连间隔
+    let interval = 1000; // 心跳间隔
+    let reconnect = true; // 是否重连
+ 
+    function startHeartbeat() {
+        // 心跳检测逻辑
+        setTimeout(function() {
+            if(ws && ws.readyState === 1) {
+                // 发送心跳消息
+                ws.send('heartbeat');
+                startHeartbeat();
+            } else {
+                reconnect = true;
+                connect();
+            }
+        }, interval);
+    }
+ 
+    function connect() {
+        ws = new WebSocket(url);
+ 
+        ws.onopen = function() {
+            console.log('WebSocket connected');
+            startHeartbeat();
+        };
+ 
+        ws.onclose = function() {
+            console.log('WebSocket disconnected');
+            if(reconnect) {
+                setTimeout(connect, timeout);
+            }
+        };
+ 
+        ws.onerror = function(error) {
+            console.error('WebSocket error observed:', error);
+        };
+ 
+        ws.onmessage = function(event) {
+            // 处理消息逻辑
+            console.log('Message from server:', event.data);
+        };
+    }
+ 
+    connect(); // 初始连接
+}
+ 
+// 使用示例
+setupWebSocket('wss://your-websocket-server.com');
+```
