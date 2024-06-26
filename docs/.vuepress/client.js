@@ -5,13 +5,16 @@ import Tag from './layouts/Tag.vue'
 import Timeline from './layouts/Timeline.vue'
 import FrontEnd from './layouts/FrontEnd.vue'
 import BackEnd from './layouts/BackEnd.vue'
+import Other from './layouts/Other.vue'
+import Category from './layouts/Category.vue'
 export default defineClientConfig({
     // we provide some blog layouts
     layouts: {
         Article,
         FrontEnd,
         BackEnd,
-        // Category,
+        Other,
+        Category,
         Tag,
         Timeline,
     },

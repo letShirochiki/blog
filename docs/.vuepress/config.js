@@ -99,7 +99,7 @@ export default defineUserConfig({
                 {
                     key: 'frontend',
                     // Remove archive articles
-                    filter: (page) => page.frontmatter.tag.includes('frontend'),
+                    filter: (page) => page.frontmatter.tag?.includes('frontend'),
                     layout: 'FrontEnd',
                     frontmatter: () => ({
                         title: 'FrontEnd',
@@ -126,10 +126,37 @@ export default defineUserConfig({
                 {
                     key: 'backend',
                     // Remove archive articles
-                    filter: (page) => !page.frontmatter.archive,
+                    filter: (page) => page.frontmatter.tag?.includes('backend'),
                     layout: 'BackEnd',
                     frontmatter: () => ({
                         title: 'BackEnd',
+                        sidebar: false,
+                    }),
+                    // Sort pages with time and sticky
+                    sorter: (pageA, pageB) => {
+                        if (pageA.frontmatter.sticky && pageB.frontmatter.sticky)
+                            return pageB.frontmatter.sticky - pageA.frontmatter.sticky
+
+                        if (pageA.frontmatter.sticky && !pageB.frontmatter.sticky) return -1
+
+                        if (!pageA.frontmatter.sticky && pageB.frontmatter.sticky) return 1
+
+                        if (!pageB.frontmatter.date) return 1
+                        if (!pageA.frontmatter.date) return -1
+
+                        return (
+                            new Date(pageB.frontmatter.date).getTime() -
+                            new Date(pageA.frontmatter.date).getTime()
+                        )
+                    },
+                },
+                {
+                    key: 'other',
+                    // Remove archive articles
+                    filter: (page) => page.frontmatter.tag?.includes('other'),
+                    layout: 'Other',
+                    frontmatter: () => ({
+                        title: 'Other',
                         sidebar: false,
                     }),
                     // Sort pages with time and sticky

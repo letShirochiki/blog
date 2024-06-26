@@ -1,16 +1,16 @@
 ---
-date: 2024-06-03
+date: 2024-06-26
 author: letshirochi
 category:
-  - Cesium
+  - WebWorkers
 tag:
   - frontend
-  - cesium
+  - webworkers
 type: frontend
-excerpt: <b>The Platform for 3D Geospatial</b>
+excerpt: <b>前端多线程技术</b>
 ---
 
-# Cesium
+# WebWorkers
 
 ## Getting started
 <!-- > Quickstart -->
